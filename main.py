@@ -27,6 +27,13 @@ if buy:
     c.execute(
      f"INSERT INTO stocks VALUES('{stock}','{tpos}','{no_stock}')")
     con.commit()
+    c.execute("SELECT * FROM amount")
+    it = c.fetchall()
+    for k in it:
+        camt = k[-1] - tpos
+        c.execute(
+            f"INSERT INTO amount VALUES('{camt}')")
+        con.commit()
 
 
 
@@ -52,7 +59,7 @@ for i in item:
         it = c.fetchall()
         tspb = i[1]/i[2]
         for k in it:
-            camt = k[-1] + (tspb-stp)
+            camt = k[-1] + (tspb-stp) +i[1]
             c.execute(
                 f"INSERT INTO amount VALUES('{camt}')")
             con.commit()
